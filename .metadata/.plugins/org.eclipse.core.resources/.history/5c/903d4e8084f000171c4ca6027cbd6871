@@ -1,0 +1,121 @@
+package lecture_13;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class RecursionWithArrayList {
+
+	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+		String str = sc.nextLine();
+		// ArrayList<String> a = getAllSubseq(str);
+		// ArrayList<String> a = getAllCombi(str);
+		// ArrayList<String> a = getAllBoard(0,10);
+		// ArrayList<String> a = getKPC(str);
+		ArrayList<String> a = getPermutations(str);
+		System.out.print(a);
+	}
+
+	private static ArrayList<String> getPermutations(String str) {
+		if (str.length() == 0) {
+			ArrayList<String> br = new ArrayList<String>();
+			br.add("");
+			return br;
+		}
+		char ch = str.charAt(0);
+		String ros = str.substring(1);
+
+		ArrayList<String> rresult = getPermutations(ros);
+		ArrayList<String> mresult = new ArrayList<String>();
+
+		StringBuilder sb = new StringBuilder();
+		for (String rstr : rresult) {
+			for (int i = 0; i < ros.length() + 1; i++) {
+				sb.insert(i, ch);
+				mresult.add(sb.toString());
+				sb.deleteCharAt(i);
+			}
+		}
+		return mresult;
+	}
+
+	static String[] code = { "?", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuvw", "xyz", "*." };
+
+	private static ArrayList<String> getKPC(String str) {
+		if (str.length() == 0) {
+			ArrayList<String> br = new ArrayList<String>();
+			br.add("");
+			return br;
+		}
+		char ch = str.charAt(0);
+		String ros = str.substring(1);
+
+		ArrayList<String> rresult = getKPC(ros);
+		ArrayList<String> mresult = new ArrayList<String>();
+
+		for (String rstr : rresult) {
+			for (int i = 0; i < code[ch - '0'].length(); i++) {
+				mresult.add(code[ch - '0'].charAt(i) + rstr);
+			}
+		}
+		return mresult;
+	}
+
+	private static ArrayList<String> getAllBoard(int cur, int end) {
+		if (cur > end) {
+			return new ArrayList<String>();
+		}
+		if (cur == end) {
+			ArrayList<String> mresult = new ArrayList<String>();
+			mresult.add("");
+			return mresult;
+		}
+		ArrayList<String> mresult = new ArrayList<String>();
+		for (int i = 1; i <= 6; i++) {
+			ArrayList<String> rresult = getAllBoard(cur + i, end);
+			for (String j : rresult) {
+				mresult.add(i + j);
+			}
+		}
+		return mresult;
+	}
+
+	private static ArrayList<String> getAllCombi(String str) {
+		if (str.length() == 0) {
+			ArrayList<String> br = new ArrayList<String>();
+			br.add("");
+			return br;
+		}
+		char ch = str.charAt(0);
+		String ros = str.substring(1);
+		ArrayList<String> rresult = getAllCombi(ros);
+		ArrayList<String> mresult = new ArrayList<String>();
+
+		for (String i : rresult) { // i is string- jis type ki value hogi
+			mresult.add("" + i);
+			mresult.add(ch + i);
+			mresult.add((int) ch + i);
+		}
+		return mresult;
+	}
+
+	private static ArrayList<String> getAllSubseq(String str) {
+		if (str.length() == 0) {
+			ArrayList<String> br = new ArrayList<String>();
+			br.add("");
+			return br;
+		}
+		char ch = str.charAt(0);
+		String ros = str.substring(1);
+		ArrayList<String> rresult = getAllSubseq(ros);
+		ArrayList<String> mresult = new ArrayList<String>();
+
+		for (String i : rresult) { // i is string- jis type ki value hogi
+			mresult.add("" + i);
+			mresult.add(ch + i);
+		}
+		return mresult;
+	}
+
+}

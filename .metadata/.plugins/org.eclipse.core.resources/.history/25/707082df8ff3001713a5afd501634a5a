@@ -1,0 +1,17 @@
+package lecture_15;
+
+public class RecursionDiff {
+
+	public static void main(String[] args) {
+		boolean[][] board = new boolean[4][4];
+		printNQueens(board,0,4,"");
+	}
+
+	private static void printNQueens(boolean[][] board, int i, int n, String string) {
+		for(i=0; i<n; i++){
+			for(int j=0; i<n; j++){
+				System.out.print(i+"-"+j+" ");
+			}
+		}
+	}
+}

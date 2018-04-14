@@ -1,0 +1,44 @@
+package practise_package;
+
+public class TICKET {
+	private String eventName;
+	private String date;
+	private char eventType;
+	private char ticketClass;
+	private double price;
+	private boolean member;
+	
+	TICKET(){
+		this.eventName = "unknown";
+		this.date = "unknown";
+		this.eventType = 'I';
+		this.ticketClass = 'S';
+		this.price = 0;
+		this.member = true;
+	}
+	
+	public String getEventName(){
+		return this.eventName;
+	}
+	
+	public String getDate(){
+		return this.date;
+	}
+	
+	public boolean isMember(){
+		return this.member;
+	}
+	
+	public void sellTicket(){
+	}
+	
+	public void display(){
+		System.out.println(getEventName());
+		System.out.println(getDate());
+		if(isMember()==true){
+			System.out.println("This purchase is made by Member ");
+		} else {
+			System.out.println("This purchase is made by non member ");
+		}
+	}
+}

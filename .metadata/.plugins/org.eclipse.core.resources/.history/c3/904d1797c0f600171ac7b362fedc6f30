@@ -1,0 +1,39 @@
+package lecture_8;
+
+import java.util.Scanner;
+
+public class solution {
+
+    public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+        String str1 = sc.nextLine();
+//        int div = sc.nextInt();
+//        divide(str1, div,0,0);
+        String str2 = sc.nextLine();
+        boolean b = checkString(str1,str2,0,str2.length()-1);
+        System.out.println(b);
+    }
+
+    private static boolean checkString(String str1, String str2, int i, int j) {
+    	if(j==0){
+    		return true;
+    	}
+    	if(str1.charAt(i)==str2.charAt(j)){
+    		return true;
+    	}
+    	boolen b = checkString(str1,str2,i+1,j-1);
+    	return b;
+	}
+
+	public static void divide(String str, int div, int i, long num){
+        if(i==str.length()){
+        	long res = num/div;
+        	System.out.print(res);
+            return;
+        }
+        num += (str.charAt(i)-48)*(int)Math.pow(10,str.length()-1-i);
+        divide(str, div, i+1,num);
+    }
+
+    
+}

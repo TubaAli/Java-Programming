@@ -1,0 +1,37 @@
+package lecture_8;
+
+import java.util.Scanner;
+
+public class solution {
+
+    public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        //ArrayList<String> ret = getPermutation(str);
+        //System.out.print(ret);
+        int div = sc.nextInt();
+        divide(str, div,0,0);
+    }
+
+    public static void divide(String str, int div, int i, long num){
+        if(i==str.length()){
+        	System.out.println(num);
+            return;
+        }
+        num = (str.charAt(i)-48)*(int)Math.pow(10,i);
+        divide(str, div, i+1,num);
+    }
+    
+//	private static ArrayList<String> getPermutation(String str) {
+//		
+//		char ch = str.charAt(0);
+//		String ros = str.substring(1);
+//		ArrayList<String> rresult = getPermutation(ros);
+//		
+//		for(String i:rresult){
+//			
+//		}
+//		return null;
+//	}
+    
+}

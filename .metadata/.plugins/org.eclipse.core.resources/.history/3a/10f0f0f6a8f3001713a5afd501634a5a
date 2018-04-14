@@ -1,0 +1,92 @@
+package lecture_15;
+
+public class RecursionDiff {
+
+	public static void main(String[] args) {
+		boolean[][] board = new boolean[4][4];
+		//printNQueens(board, 0, 0, "");
+//		System.out.println(counter);
+		printNQueens(board, 0, "");
+	}
+
+	private static void printNQueens(boolean[][] board, int row, String csf) {
+		if(row==board.length){
+			System.out.println(csf+".");
+			return;
+		}
+			
+		for(int col=0; col<board.length; col++){
+			if(isQueenValid(board,row,col)==true){
+				board[row][col] = true;
+				printNQueens(board, row+ 1, csf + "[" + row + "," + col + "]" + "-");
+				board[row][col] = false;
+			}
+		}
+	}
+
+	static int counter = 0;
+
+	private static void printNQueens(boolean[][] board, int boxNum, int qpsf, String csf) {
+		if (qpsf == board.length) {
+			if (isBoardValid(board) == true) {
+				System.out.println(csf + ".");
+				counter++;
+			}
+			return;
+		}
+		for (int box = boxNum; box < board.length * board.length; box++) {
+			int row = box / board.length;
+			int col = box % board[0].length;
+			board[row][col] = true;
+			printNQueens(board, box + 1, qpsf + 1, csf + "[" + row + "," + col + "]" + "-");
+			board[row][col] = false;
+		}
+	}
+
+	private static boolean isBoardValid(boolean[][] board) {
+		for (int row = 0; row < board.length; row++) {
+			for (int col = 0; col < board[0].length; col++) {
+				if ((board[row][col] == true && isQueenValid(board, row, col) == false)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private static boolean isQueenValid(boolean[][] board, int row, int col) {
+		// row checking
+		for (int r = 0; r < board.length; r++) {
+			if (board[r][col] == true && r != row) {
+				return false;
+			}
+		}
+		// col checking
+		for (int c = 0; c < board.length; c++) {
+			if (board[row][c] == true && c != col) {
+				return false;
+			}
+		}
+		int k = 1;
+		while (k < board.length) {
+			int rmk = row - k;
+			int rpk = row + k;
+			int cmk = col - k;
+			int cpk = col + k;
+			if (rmk >= 0 && cmk >= 0 && board[rmk][cmk] == true) {
+				return false;
+			}
+			if (rmk >= 0 && cpk < board.length && board[rmk][cpk] == true) {
+				return false;
+			}
+			if (rpk < board.length && cmk >= 0 && board[rpk][cmk] == true) {
+				return false;
+			}
+			if (rpk < board.length && cpk < board.length && board[rpk][cpk] == true) {
+				return false;
+			}
+			k++;
+		}
+		return true;
+	}
+}

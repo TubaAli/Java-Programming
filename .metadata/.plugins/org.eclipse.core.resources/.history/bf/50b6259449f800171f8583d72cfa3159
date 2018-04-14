@@ -1,0 +1,30 @@
+package lecture_16;
+
+public class recurToIter {
+
+	public static void main(String[] args) {
+		int[] wts = {20,30,50,10,5};
+		int[] costs = {10,20,2,15,100};
+		int capacity = 50;
+		int maxCost = knapsack(wts,costs,0,capacity,0);
+		System.out.println(maxCost);
+	}
+	static int max = 0;
+	private static int knapsack(int[] wts, int[] costs, int i, int capacity,int csf) {
+		if(i==wts.length || capacity==0){
+			if(csf>max){
+				max = csf;
+			}
+			return csf;
+		}
+		for(int j=0; j<wts.length; j++){
+			if(capacity>wts[j]){
+				csf = knapsack(wts,costs,i+1,capacity-wts[i],csf+costs[i]);
+				csf = knapsack(wts,costs,i+1,capacity,csf);
+			} else{
+				csf = knapsack(wts,costs,i+1,capacity,csf);
+			}
+		}
+		return csf;
+	}
+}

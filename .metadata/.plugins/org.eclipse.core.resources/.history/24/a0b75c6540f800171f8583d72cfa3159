@@ -1,0 +1,32 @@
+package lecture_16;
+
+public class floodfill {
+
+	public static void main(String[] args) {
+		int[][] mat = { { 1, 0, 1, 0 }, { 1, 1, 1, 0 }, { 0, 1, 1, 1 }, { 0, 0, 1, 1 } };
+		boolean[][] b = new boolean[mat.length][mat[0].length];
+		boolean check = isPath(mat, 0, 0, b);
+		if (check == true) {
+			System.out.println("yes");
+		} else {
+			System.out.println("No");
+		}
+	}
+
+	private static boolean isPath(int[][] mat, int row, int col, boolean[][] visited) {
+		if (row > mat.length || col > mat.length || row<0 || col<0 ||mat[row][col] == 0 
+				|| visited[row][col]==true) {
+			return false;
+		}
+		if ((row == mat.length - 1) && (col == mat.length - 1)) {
+			return true;
+		}
+		visited[row][col] = true;
+		boolean isLeftPath = isPath(mat, row, col-1, visited);
+		boolean isRightPath = isPath(mat, row, col+1, visited);
+		boolean isTopPath = isPath(mat, row - 1, col, visited);
+		boolean isDownPath = isPath(mat, row + 1, col, visited);
+
+		return isLeftPath || isRightPath || isTopPath || isDownPath;
+	}
+}

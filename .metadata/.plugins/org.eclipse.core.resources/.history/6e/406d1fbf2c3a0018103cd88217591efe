@@ -1,0 +1,434 @@
+package dec23Batch;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+import classesObjects.Queue;
+
+public class GenericTree {
+	public class Node {
+		int data;
+		ArrayList<Node> children = new ArrayList<GenericTree.Node>();
+	}
+
+	private int size = 0;
+	private Node root = null;
+
+	public GenericTree() {
+		this.root = this.takeInput(null, 0, new Scanner(System.in));
+	}
+
+	public Node takeInput(Node parent, int ithChild, Scanner sc) {
+		// prompt the user
+		if (parent == null) {
+			System.out.print("Enter the data for the root : ");
+		} else {
+			System.out.print("Enter the data for " + ithChild + " of " + parent.data);
+		}
+
+		// collect data
+		int data = sc.nextInt();
+
+		// create child & set its data and increase size
+		Node child = new Node();
+		child.data = data;
+		this.size++;
+
+		// enter number of children
+		System.out.print("Enter the number of children for " + child.data);
+		int numGC = sc.nextInt();
+
+		// create children
+		for (int i = 0; i < numGC; i++) {
+			Node gc = takeInput(child, i, sc);
+			child.children.add(gc);
+		}
+
+		return child;
+	}
+
+	public void display() {
+		System.out.println();
+		this.display(this.root);
+	}
+
+	private void display(Node node) {
+		String str = node.data + " -> ";
+		for (Node child : node.children) {
+			str += child.data + ", ";
+		}
+		str += ".";
+		System.out.println(str);
+		for (Node child : node.children) {
+			display(child);
+		}
+	}
+
+	public int size2() {
+		return this.size2(root);
+	}
+
+	private int size2(Node node) {
+		int size = 0;
+
+		for (Node child : node.children) {
+			int cs = size2(child);
+			size += cs;
+		}
+		size += 1;
+		return size;
+	}
+
+	public int max() {
+		return this.max(root);
+	}
+
+	private int max(Node node) {
+		int max = node.data;
+
+		for (Node child : node.children) {
+			int cm = max(child);
+			if (cm > max) {
+				max = cm;
+			}
+		}
+		return max;
+	}
+
+	public int height() {
+		return this.height(root);
+	}
+
+	private int height(Node node) {
+		int height = -1;
+
+		if (node.children.size() == 0) {
+			return 0;
+		}
+		for (Node child : node.children) {
+			int ch = height(child);
+			if (ch > height) {
+				height = ch;
+			}
+		}
+		height += 1;
+		return height;
+	}
+
+	public boolean find(int val) {
+		return this.find(val, root);
+	}
+
+	private boolean find(int val, Node node) {
+
+		if (node.data == val) {
+			return true;
+		}
+
+		for (Node child : node.children) {
+			boolean b = find(val, child);
+			if (b == true) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// public void linearize(){
+	// this.linearize(root,root);
+	// }
+	// private void linearize(Node node, Node curr){
+	//
+	// if(node.children.size()==0){
+	// curr = node;
+	// return;
+	// } else {
+	// }
+	// for(Node child: node.children){
+	// linearize(child, child);
+	// curr.children.add(node.children);
+	// }
+	//
+	// }
+
+	public void mirror() {
+		this.mirror(root);
+	}
+
+	private void mirror(Node node) {
+
+		for (Node child : node.children) {
+			mirror(child);
+		}
+		int left = 0;
+		int right = node.children.size() - 1;
+		while (left < right) {
+			Node leftItem = node.children.get(left);
+			Node rightItem = node.children.get(right);
+			node.children.set(left, rightItem);
+			node.children.set(right, leftItem);
+			left++;
+			right--;
+		}
+	}
+
+	public void preOrder() {
+		this.preOrder(root);
+		System.out.println(" . ");
+	}
+
+	public void preOrder(Node node) {
+
+		System.out.print(node.data + " ");
+		for (Node child : node.children) {
+			preOrder(child);
+		}
+	}
+
+	public void postOrder() {
+		this.postOrder(root);
+		System.out.println(" . ");
+	}
+
+	public void postOrder(Node node) {
+
+		for (Node child : node.children) {
+			postOrder(child);
+		}
+		System.out.print(node.data + " ");
+	}
+
+	public class TIHelper { // traversal iterative helper
+		Node node;
+		int nocServiced;
+		boolean isSelfDone;
+	}
+
+	public void preOrderIter() {
+		LinkedList<TIHelper> stack = new LinkedList<TIHelper>();
+		TIHelper helper = new TIHelper();
+		helper.node = root;
+		stack.addFirst(helper);
+
+		while (stack.size() > 0) {
+			TIHelper tos = new TIHelper();
+			tos = stack.getFirst();
+
+			if (tos.isSelfDone == false) {
+				System.out.print(tos.node.data + " ");
+				tos.isSelfDone = true;
+			} else if (tos.nocServiced < tos.node.children.size()) {
+				TIHelper child = new TIHelper();
+				child.node = tos.node.children.get(tos.nocServiced);
+				stack.addFirst(child);
+				tos.nocServiced++;
+			} else {
+				stack.removeFirst();
+			}
+		}
+		System.out.println(" . ");
+	}
+
+	public void postOrderIter() {
+		LinkedList<TIHelper> stack = new LinkedList<TIHelper>();
+		TIHelper helper = new TIHelper();
+		helper.node = root;
+		stack.addFirst(helper);
+
+		while (stack.size() > 0) {
+			TIHelper tos = new TIHelper();
+			tos = stack.getFirst();
+
+			if (tos.nocServiced < tos.node.children.size()) {
+				TIHelper child = new TIHelper();
+				child.node = tos.node.children.get(tos.nocServiced);
+				stack.addFirst(child);
+				tos.nocServiced++;
+			} else if (tos.isSelfDone == false) {
+				System.out.print(tos.node.data + " ");
+				tos.isSelfDone = true;
+			} else {
+				stack.removeFirst();
+			}
+		}
+		System.out.println(" . ");
+	}
+
+	public class Heapmover {
+		int size = 0;
+		int height = 0;
+		boolean find = false;
+		int max = Integer.MIN_VALUE;
+		int min = Integer.MAX_VALUE;
+
+		Node prev = null;
+		Node curr = null;
+		Node pred = null;
+		Node succ = null;
+		Node justLarger = null;
+		Node justSmaller = null;
+	}
+
+	public void multisolver(int data) {
+		Heapmover mover = new Heapmover();
+		multisolver(mover, root, data, 0);
+		System.out.println(mover.max);
+		System.out.println(mover.min);
+		System.out.println(mover.find);
+		System.out.println(mover.height);
+
+		if (mover.pred == null) {
+			System.out.print("Pred not available ");
+		} else {
+			System.out.print(mover.pred.data + " ");
+		}
+		if (mover.succ == null) {
+			System.out.print("succ not available ");
+		} else {
+			System.out.print(mover.succ.data + " ");
+		}
+		if (mover.justLarger == null) {
+			System.out.print("justLarger not available ");
+		} else {
+			System.out.print(mover.justLarger.data + " ");
+		}
+		if (mover.justSmaller == null) {
+			System.out.print("justSmaller not available ");
+		} else {
+			System.out.print(mover.justSmaller.data + " ");
+		}
+	}
+
+	private void multisolver(Heapmover mover, Node node, int data, int depth) {
+		mover.prev = mover.curr;
+		mover.curr = node;
+		mover.size++;
+		mover.max = Math.max(node.data, mover.max);
+		mover.min = Math.max(node.data, mover.min);
+		mover.height = Math.max(node.data, mover.height);
+		mover.size = Math.max(node.data, mover.height);
+
+		if (node.data < data) {
+			if (mover.justSmaller == null) {
+				mover.justSmaller = node;
+			} else if (node.data > mover.justSmaller.data) {
+				mover.justSmaller = node;
+			}
+		}
+		if (node.data > data) {
+			if (mover.justLarger == null) {
+				mover.justLarger = node;
+			} else if (node.data < mover.justLarger.data) {
+				mover.justLarger = node;
+			}
+		}
+		if (node.data == data) {
+			mover.find = true;
+			mover.pred = mover.prev;
+		} else if (mover.prev != null && mover.prev.data == data) {
+			mover.succ = mover.curr;
+		}
+
+		for (Node child : node.children) {
+			multisolver(mover, child, data, depth + 1);
+		}
+	}
+
+	public void levelOrder() {
+		LinkedList<Node> queue = new LinkedList<Node>();
+		queue.addLast(root);
+
+		while (queue.size() > 0) {
+			Node temp = queue.removeFirst();
+			System.out.println(temp.data + " ");
+
+			for (Node child : temp.children) {
+				queue.addLast(child);
+			}
+		}
+	}
+
+	public void levelOrderLW() {
+		LinkedList<Node> cl = new LinkedList<Node>();
+		LinkedList<Node> nl = new LinkedList<Node>();
+		cl.addLast(root);
+
+		while (cl.size() > 0) {
+			Node temp = cl.removeFirst();
+			System.out.print(temp.data + " ");
+
+			for (Node child : temp.children) {
+				nl.addLast(child);
+			}
+			if (cl.size() == 0) {
+				System.out.println();
+				cl = nl;
+				nl = new LinkedList<Node>();
+			}
+		}
+	}
+
+	public void levelOrderZZ() {
+		LinkedList<Node> cl = new LinkedList<Node>();
+		LinkedList<Node> nl = new LinkedList<Node>();
+		cl.addLast(root);
+		boolean flag = false;
+		while (cl.size() > 0) {
+			Node temp = cl.removeFirst();
+			System.out.print(temp.data + " ");
+
+			if (flag == false) {
+				for (Node child : temp.children) {
+					nl.addFirst(child);
+				}
+			} else {
+				for (int i = temp.children.size() - 1; i >= 0; i--) {
+					nl.addFirst(temp.children.get(i));
+				}
+			}
+
+			if (cl.size() == 0) {
+				System.out.println();
+				cl = nl;
+				nl = new LinkedList<Node>();
+				flag = !flag;
+			}
+		}
+	}
+
+	public void removeLeaves() {
+		this.removeLeaves(root);
+		this.removeLeaveAnother(null, root, 0);
+	}
+
+	private void removeLeaves(Node parent) {
+
+		if (parent != null) {
+			for (int j = parent.children.size() - 1; j >= 0; j--) {
+				if (parent.children.get(j).children.size() == 0) {
+					parent.children.remove(j);
+				}
+			}
+		}
+
+		for (int i = 0; i < parent.children.size(); i++) {
+			removeLeaves(parent.children.get(i));
+		}
+	}
+
+	public void removeLeaveAnother(Node parent, Node child, int ith) {
+		if (parent != null) {
+			// remove my leaves
+			if(child.children.size()==0){
+				parent.children.remove(ith);
+			}
+		}
+		// remove child's leaves
+		for (int i = child.children.size() - 1; i >= 0; i--) {
+			removeLeaveAnother(child, child.children.get(i), i);
+		}
+	}
+	
+	
+}

@@ -1,0 +1,26 @@
+package lecture_15;
+
+public class RecursionDiff {
+
+	public static void main(String[] args) {
+		boolean[][] board = new boolean[4][4];
+		printNQueens(board, 0, 0, "");
+		System.out.println(counter);
+	}
+static int counter = 0;
+
+	private static void printNQueens(boolean[][] board, int boxNum, int qpsf, String csf) {
+		if (qpsf == board.length) {
+			System.out.print(csf);
+			counter++;
+			return;
+		}
+		for (int box = boxNum; box < board.length*board.length; box++) {
+			int row = box / board.length;
+			int col = box % board.length;
+			board[row][col]=true;
+			printNQueens(board, box+1, qpsf + 1, "["+row+","+col+"]"+"-");
+			board[row][col]=false;
+		}
+	}
+}

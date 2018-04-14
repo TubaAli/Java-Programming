@@ -1,0 +1,78 @@
+package hashmap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Client {
+
+	public static void main(String[] args) {
+		HashMap<String, Integer> popmap = new HashMap<>();
+		
+		popman.put("India", 125);
+		System.out.println(popman);
+		
+		popman.put("China",200);
+		System.out.println(popman);
+		
+		popman.put("Pak",80);
+		System.out.println(popman);
+		
+		popman.put("US", 25);
+		System.out.println(popman);
+		
+		popman.put("UK",20);
+		System.out.println(popman);
+		
+		popman.put("Aus",10);
+		System.out.println(popman);
+		
+		popman.put("India",140);
+		System.out.println(popman);
+		
+		System.out.println(popman.get("India"));
+		System.out.println(popman.get("Utopia"));
+		
+		System.out.println(popman.remove("Pak"));
+		System.out.println(popman.remove("Utopia"));
+		
+		System.out.println(popman);
+		
+		ArrayList<String> keys = new ArrayList<>(popman.keySet());
+		for(String key:keys){
+			Integer val = popman.get(key);
+			System.out.println(key+" = "+val);
+		}
+	}
+	
+	public static void highestFreqChar(String str){
+		
+	}
+	
+	public static void gce1(int[] one, int[] two){
+		HashMap<Integer, Boolean> map = new HashMap<>();
+		for(int val:one){
+			map.put(val, true);
+		}
+		
+		for(int val:two){
+			if(map.containsKey(val) && map.get(val)==true){
+				System.out.println(val);
+				map.put(val, false);
+			}
+		}
+	}
+	
+	public static void gce2(int[] one, int[] two){
+		HashMap<Integer, Integer> map = new HashMap<>();
+		for(int val:one){
+			map.put(val, map.containsKey(val)==true? map.get(val)+1:1);
+		}
+		
+		for(int val:two){
+			if(map.containsKey(val) && map.get(val)>0){
+				System.out.println(val);
+				map.put(val, map.get(val)-1);
+			}
+		}
+	}
+}

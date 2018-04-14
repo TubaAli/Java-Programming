@@ -1,0 +1,43 @@
+package lecture_8;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class solution3 {
+
+	 public static void main(String[] args) {
+	        Scanner sc = new Scanner(System.in);
+	        String str = sc.nextLine();
+	        System.out.println(countPermutations(str,0));
+	        System.out.println(allPermutations(str,0));
+	        printPermutations(str,0);
+	    }
+
+	private static ArrayList<String> printPermutations(String str, int i, String asf) {
+		if(str.length()==0){
+			System.out.print(asf+" ");
+			return new ArrayList<String>();
+		}
+		char ch = str.charAt(0);
+		String roq = str.substring(1);
+		
+		ArrayList<String> rresult = printPermutations(str,i+1,asf);
+		ArrayList<String> mresult = new ArrayList<String>();
+		for(String rstr:rresult){
+			for(int j=0; j<roq.length()+1; j++){
+				printPermutations(roq, i+1, asf.substring(0,j)+ch+asf.substring(j));
+			}
+		}
+		
+	}
+
+	private static char[] allPermutations(String str, int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static char[] countPermutations(String str, int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

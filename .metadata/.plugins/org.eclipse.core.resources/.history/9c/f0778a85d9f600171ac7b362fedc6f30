@@ -1,0 +1,35 @@
+package lecture_8;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class solution {
+
+    public static void main(String[] args) {
+    	Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        int n = sc.nextInt();
+        StringBuilder sb = new StringBuilder();
+        String str1 = removeDuplicates(str,0,sb);
+        System.out.println(str1.charAt(n));
+        System.out.println(str1);
+    }
+
+	private static String removeDuplicates(String str, int i, StringBuilder sb) {
+		if(i!=str.length()){
+			if(str.charAt(i)==str.charAt(i+1)){
+				i=i+1;
+			}
+			else{
+				sb.append(str.charAt(i));
+			}
+		}
+		else{
+			return sb.toString();
+		}
+		String str1 = removeDuplicates(str,i+1,sb);
+		return str1;
+		
+	}
+
+}

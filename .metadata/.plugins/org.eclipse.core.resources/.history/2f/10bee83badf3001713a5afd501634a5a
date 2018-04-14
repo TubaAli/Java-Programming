@@ -1,0 +1,67 @@
+package lecture_15;
+
+public class nKnights {
+
+	public static void main(String[] args) {
+		boolean[][] board = new boolean[3][3];
+		printNKnights(board, 0, 0, "");
+		// 0 -> boxNum 0-> knight placed so far
+	}
+
+	private static void printNKnights(boolean[][] board, int boxNum, int kpsf, String csf) {
+		if (kpsf == board.length) {
+			System.out.println(csf + ".");
+			return;
+		}
+		for (int box = boxNum; box < board.length * board.length; box++) {
+			int row = box / board.length;
+			int col = box % board[0].length;
+			if (isKnightValid(board,row,col) == true) {
+				board[row][col] = true;
+				printNKnights(board, box + 1, kpsf + 1, csf + "[" + row + "," + col + "]" + "-");
+				board[row][col] = false;
+			}
+		}
+	}
+
+	private static boolean isKnightValid(boolean[][] board, int row, int col) {
+		int k=1, l=2;
+		while (k < board.length) {
+			int rmk = row - k;
+			int rpk = row + k;
+			int cmk = col - k;
+			int cpk = col + k;
+			int rml = row - l;
+			int rpl = row + l;
+			int cml = col - l;
+			int cpl = col + l;
+			if (rmk >= 0 && cmk >= 0 && board[rmk][cmk] == true) {
+				return false;
+			}
+			if (rmk >= 0 && cpk < board.length && board[rmk][cpk] == true) {
+				return false;
+			}
+			if (rpk < board.length && cmk >= 0 && board[rpk][cmk] == true) {
+				return false;
+			}
+			if (rpk < board.length && cpk < board.length && board[rpk][cpk] == true) {
+				return false;
+			}
+			if (rml >= 0 && cml >= 0 && board[rml][cml] == true) {
+				return false;
+			}
+			if (rml >= 0 && cpl < board.length && board[rml][cpl] == true) {
+				return false;
+			}
+			if (rpl < board.length && cml >= 0 && board[rpl][cml] == true) {
+				return false;
+			}
+			if (rpl < board.length && cpl < board.length && board[rpl][cpl] == true) {
+				return false;
+			}
+			k++; l+=2;
+		return false;
+	}
+		return true;
+	}
+}

@@ -1,0 +1,31 @@
+package lecture_8;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class solution {
+
+    public static void main(String[] args) {
+    	Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        int n = sc.nextInt();
+        StringBuilder sb = new StringBuilder();
+        String str1 = removeHi(str,0,sb);
+        System.out.println(str1.charAt(n));
+        System.out.println(str1);
+    }
+
+	private static String removeHi(String str, int i, StringBuilder sb) {
+		if(i!=str.length()-1){
+			if(str.charAt(i)!='h' && str.charAt(i+1)!='i'){
+				sb.append(str.charAt(i));
+			}
+		}
+		else{
+			return sb.toString();
+		}
+		String str1 = removeHi(str,i+1,sb);
+		return str1;
+	}
+    
+}

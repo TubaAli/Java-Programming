@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="trees.GenericTree.Node"/>
+<fullyQualifiedTypeName name="org.w3c.dom.Node"/>
+<fullyQualifiedTypeName name="javax.xml.soap.Node"/>
+<fullyQualifiedTypeName name="BinaryTrees.BinaryTree.Pair"/>
+<fullyQualifiedTypeName name="LinkedLists.LinkedList.Node"/>
+<fullyQualifiedTypeName name="BinaryTrees.BinaryTree.Node"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="classesObjects.Queue"/>
+<fullyQualifiedTypeName name="BinaryTrees.BST"/>
+<fullyQualifiedTypeName name="BinaryTrees.Heapmover"/>
+<fullyQualifiedTypeName name="BinaryTrees.AVL.Node"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+</qualifiedTypeNameHistroy>

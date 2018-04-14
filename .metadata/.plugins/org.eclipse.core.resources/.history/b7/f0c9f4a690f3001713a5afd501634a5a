@@ -1,0 +1,19 @@
+package lecture_15;
+
+public class RecursionDiff {
+
+	public static void main(String[] args) {
+		boolean[][] board = new boolean[4][4];
+		printNQueens(board,0,4,"");
+	}
+
+	private static void printNQueens(boolean[][] board, int i, int j, String psf) {
+		if(j==4){
+			System.out.print(i+"-"+j);
+			return;
+		}
+		for(i=0; i<4; i++){
+		  printNQueens(board,i,j+1,psf+i);
+		}
+	}
+}

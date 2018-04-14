@@ -1,0 +1,242 @@
+package BinaryTrees;
+
+import java.util.*;
+
+public class AVL {
+	public class Node {
+		int data;
+		Node left = null;
+		Node right = null;
+		int height = 0;
+	}
+
+	private Node root;
+	private int size;
+
+	public int size() {
+		return this.size;
+	}
+
+	public AVL(int[] arr) {
+		this.root = this.construct(arr, 0, arr.length - 1);
+	}
+
+	public Node construct(int[] arr, int lo, int hi) {
+		if (lo > hi) {
+			return null;
+		}
+
+		Node node = new Node();
+		int mid = (lo + hi) / 2;
+		node.data = arr[mid];
+
+		node.left = construct(arr, lo, mid - 1);
+		node.right = construct(arr, mid + 1, hi);
+		node.height = height(node);
+
+		return node;
+	}
+
+	public int searchByIn(int[] in, int isi, int iei, int data) {
+		for (int i = isi; i <= iei; i++) {
+			if (in[i] == data) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public boolean isEmpty() {
+		return this.size() == 0;
+	}
+
+	public void display() {
+		display(root);
+	}
+
+	private void display(Node node) {
+
+		if (node == null) {
+			return;
+		}
+
+		String str = "";
+		if (node.left == null) {
+			str += " .=> ";
+		} else {
+			str += node.left.data + " => ";
+		}
+		str += node.data+"_"+node.height;
+		if (node.right == null) {
+			str += " <=. ";
+		} else {
+			str += " <= " + node.right.data;
+		}
+
+		System.out.println(str);
+		display(node.left);
+		display(node.right);
+	}
+
+	public int size2() {
+		return size2(root);
+	}
+
+	private int size2(Node child) {
+		if (child == null) {
+			return 0;
+		}
+		return size2(child.left) + 1 + size2(child.right);
+	}
+
+	public int max() {
+		return this.max(root);
+	}
+
+	private int max(Node node) {
+		if (node.right != null) {
+			return max(node.right);
+		} else {
+			return node.data;
+		}
+	}
+
+	private int height(Node node) {
+		if (node == null) {
+			return -1;
+		}
+		return Math.max(node.left == null ? 0 : node.left.height + 1, node.right == null ? 0 : node.right.height + 1);
+	}
+	
+	public void add(int data) {
+		this.root = this.add(root, data);
+	}
+
+	private Node add(Node node, int data) {
+		if(node==null){
+			Node temp = new Node();
+			temp.data = data;
+			temp.height = 0;
+			this.size++;
+			return temp;
+		}
+		if (data > node.data) {
+			node.right = add(node.right, data);
+			} else if (data < node.data) {
+			node.left = add(node.left, data);
+			} else {
+				// do nothing
+			}
+		
+		node.height = height(node);
+		int bal = balanceFactor(node);
+		if (bal < -1 || bal > 1) {
+			if (bal > 0) {
+				// ll, lr
+				if (data < node.data) {
+					// ll
+					node = rightRotate(node);
+				} else {
+					//lr
+					node.left = leftRotate(node.left);
+					node = rightRotate(node);
+				}
+			} else {
+				// rr, rl
+				if (data > node.data) {
+					// rr
+					node = leftRotate(node);
+				} else {
+					// rl
+					node.right = rightRotate(node.right);
+					node = leftRotate(node);
+				}
+			}
+		}
+		return node;
+	}
+	
+	public void remove(int data) {
+		this.root = this.remove(this.root, data);
+	}
+	
+	private Node remove(Node node, int data){
+		if(data>node.data){
+			node.right = remove(node.right,data);
+		} else if(data<node.data){
+			node.left = remove(node.left,data);
+		} else {
+			//activity
+			if(node.left==null || node.right==null){
+				node = node.left!=null? node.left:node.right;
+			} else {
+				int lmax = max(node.left);
+				node.data = lmax;
+				node.left = remove(node.left, lmax);
+			}
+		}
+		if(node==null){
+			return null;
+		}
+		
+		node.height = height(node);
+		int bal = balanceFactor(node);
+		if(bal<-1 || bal>1){
+			// ll,lr,rl,rr
+			if(bal>0){
+				//ll, lr
+				int lbal = balanceFactor(node.left);
+				if(lbal>=0){
+					//ll
+					node = rightRotate(node);
+				} else {
+					// lr
+					node.left = leftRotate(node.left);
+					node = rightRotate(node);
+				}
+			} else {
+				//rr,rl
+				int rbal = balanceFactor(node.right);
+				if(rbal<0){
+					//rr
+					node = leftRotate(node);
+				} else {
+					//rl
+					node.right = rightRotate(node.right);
+					node = leftRotate(node);
+				}
+			}
+		}
+		return node;
+	}
+
+	private Node rightRotate(Node z) {
+		Node y = z.left;
+		Node t3 = y.right;
+		y.right = z;
+		z.left = t3;
+		
+		y.height = height(y);
+		z.height = height(z);
+		
+		return y;
+	}
+
+	private Node leftRotate(Node z) {
+		Node y = z.right;
+		Node t2 = y.left;
+		y.left = z;
+		z.right = t2;
+		
+		y.height = height(y);
+		z.height = height(z);
+		
+		return y;
+	}
+
+	private int balanceFactor(Node node) {
+		int lh = height(node.left);
+		int rh = height(node.right);
+		return lh - rh;
+	}
+}

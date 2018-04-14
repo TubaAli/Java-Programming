@@ -1,0 +1,36 @@
+package lecture_8;
+
+import java.util.Scanner;
+
+public class solution {
+
+    public static void main(String[] args) {
+    	Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        char ch = sc.next().charAt(0);
+        int n = sc.nextInt();
+        String newStr = appendString(str,0,ch,0);
+        System.out.print(newStr.charAt(n));
+    }
+
+	private static String appendString(String str, int i, char ch, int count) {
+		if(i!=str.length()){
+			if(str.charAt(i)!=ch){
+//				StringBuilder sb = new StringBuilder();
+//				sb.append(str.charAt(i));
+				return str.substring(0,i);
+			}
+			else{
+				count++;
+				return str;
+			}
+		}
+		String newStr = appendString(str,i+1,ch,count);
+		StringBuilder sb1 = new StringBuilder(newStr);
+		for(int j=0; j<count; j++){
+			sb1.append(ch);
+		}
+		return sb1.toString();
+	}
+
+}

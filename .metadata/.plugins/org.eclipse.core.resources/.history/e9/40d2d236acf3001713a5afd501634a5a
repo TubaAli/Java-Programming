@@ -1,0 +1,23 @@
+package lecture_15;
+
+public class nKnights {
+
+	public static void main(String[] args) {
+		boolean[][] board = new boolean[3][3];
+		printNKnights(board,0,0,"");
+		//0 -> boxNum 0-> knight placed so far
+	}
+
+	private static void printNKnights(boolean[][] board, int boxNum, int kpsf, String cfp) {
+		if(kpsf==board.length){
+			if(isKnightValid(board)==true){
+				System.out.println(csf+".");
+			}
+			return;
+		}
+		for(int i=0; i<board.length; i++){
+			
+		}
+	}
+
+}
